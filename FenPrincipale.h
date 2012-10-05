@@ -33,14 +33,13 @@ private:
 
     QGridLayout* layoutPrincipale;
     QLabel* paneau;
-    QImage* canvas;
     QSlider* redSlider;
     QSlider* greenSlider;
     QSlider* blueSlider;
     QLineEdit* resultLine;
-    QVector<QRgb> colorVector;
 
     QToolButton* buttonColorPicker;
+    QPixmap* pixmapToPaint;
 };
 
 #endif // FENPRINCIPALE_H

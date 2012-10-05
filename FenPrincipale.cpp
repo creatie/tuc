@@ -3,12 +3,11 @@
 FenPrincipale::FenPrincipale() :
     layoutPrincipale    (new QGridLayout(this)),
     paneau              (new QLabel(this)),
-    canvas              (new QImage(320, 240, QImage::Format_Indexed8)),
     redSlider           (new QSlider(Qt::Horizontal, this)),
     greenSlider         (new QSlider(Qt::Horizontal, this)),
     blueSlider          (new QSlider(Qt::Horizontal, this)),
     resultLine          (new QLineEdit(this)),
-    colorVector         (1)     // build colour vector with one place
+    pixmapToPaint           (new QPixmap(100, 100))
 {
     this->setFixedSize(230, 120);
 
@@ -28,11 +27,8 @@ FenPrincipale::FenPrincipale() :
 
 void FenPrincipale::paintCanvas(int r, int g, int b)
 {
-    colorVector[0] = qRgb(r, g, b);
-
-    canvas->setColorTable(colorVector);
-    canvas->fill(0);
-    paneau->setPixmap(QPixmap::fromImage(*canvas));
+    pixmapToPaint->fill(QColor(r, g, b));
+    paneau->setPixmap(*pixmapToPaint);
 
     /* very slow but readable
     QString redText = QString( "%1" ).arg( int(r), 2, 16, QChar('0') ).toUpper();
@@ -43,7 +39,9 @@ void FenPrincipale::paintCanvas(int r, int g, int b)
     */
 
     // fast but maniac mode
-    this->resultLine->setText(QString("0x") + QString("%1%2%3").arg( int(r), 2, 16, QChar('0') ).arg( int(g), 2, 16, QChar('0') ).arg( int(b), 2, 16, QChar('0') ).toUpper());
+    this->resultLine->setText(QString("#") + QString("%1%2%3").arg( int(r), 2, 16, QChar('0') ).arg( int(g), 2, 16, QChar('0') ).arg( int(b), 2, 16, QChar('0') ).toUpper());
+    //this->resultLine->setText(QString("0x") + QString("%1%2%3").arg( int(r), 2, 16, QChar('0') ).arg( int(g), 2, 16, QChar('0') ).arg( int(b), 2, 16, QChar('0') ).toUpper());
+    //this->resultLine->setText(QString("%1%2%3").arg( int(r), 2, 16, QChar('0') ).arg( int(g), 2, 16, QChar('0') ).arg( int(b), 2, 16, QChar('0') ).toUpper());
 }
 
 
@@ -63,8 +61,8 @@ void FenPrincipale::buildSliders()
 
 void FenPrincipale::buildResultSide()
 {
-
     resultLine->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    resultLine->setReadOnly(true);
 }
 
 void FenPrincipale::buildButtons()

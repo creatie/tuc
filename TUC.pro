@@ -5,3 +5,6 @@ SOURCES += \
 HEADERS += \
     FenPrincipale.h
 
+OTHER_FILES += \
+    TODO.txt
+
